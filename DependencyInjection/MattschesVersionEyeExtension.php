@@ -31,5 +31,9 @@ class MattschesVersionEyeExtension extends Extension
             'mattsches_version_eye.base_url',
             $config['base_url']
         );
+        $container->setParameter(
+            'mattsches_version_eye.filesystem_cache_path',
+            $config['filesystem_cache_path']
+        );
     }
 }

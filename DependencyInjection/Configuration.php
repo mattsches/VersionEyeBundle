@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('api_key')->isRequired()->cannotBeEmpty()->end()
             ->scalarNode('base_url')->isRequired()->cannotBeEmpty()->end()
+            ->scalarNode('filesystem_cache_path')->isRequired()->cannotBeEmpty()->end()
             ->end()
             ;
         return $treeBuilder;

@@ -2,7 +2,7 @@
     "name": "mattsches/version-eye-bundle",
     "type": "symfony-bundle",
     "description": "Symfony MattschesVersionEyeBundle",
-    "keywords": ["versioneye"],
+    "keywords": ["version eye", "symfony2", "bundle"],
     "license": "MIT",
     "authors": [
         {
@@ -23,6 +23,5 @@
     "autoload": {
         "psr-0": { "Mattsches\\VersionEyeBundle": "" }
     },
-    "minimum-stability": "dev",
     "target-dir": "Mattsches/VersionEyeBundle"
 }

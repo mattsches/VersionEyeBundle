@@ -1,0 +1,54 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% if collector.data %}
+        {% set icon %}
+            <span style="margin-top:4px;"><img alt="VersionEye" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAYFBMVEUhJScjJSImKCYmKi0nLjUsLiwqLzAvMzY0ODo4OTc0O0E/Q0ZFR0RNUFFVWVleYF9laGdwdHR9gH+Dh4aPkY6Xmpugpaerrq6ztrW+wL7HysnQ09Lg4+Dr7erx8/D7/fo8XGycAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90CEAEWL/4mQxcAAADlSURBVBjTbc/broQgDEDRAlpQEQQVLxT4/7+c6tPJzNkPJKwCCTD+ZuCXzB/sus6Y7l1fNOOIS8qlFspHnBCM4QvTWlprKazlXmI6GPUUqbVaK82YyqSUAoPuaneuhbvAUUCtQXuqpzmZiDKaHBSjK6WukJiILtB5RkQgCnSAy2zZq/lUD5YAO03K7efulIruxU2hvpJGbTTi7BEV9sAD1Gkb9LOde4l2H2Dz/ANw0VsphRjmdbMSKJ87y8BZv+6b74UEG4/7vq7z6Yi2lxzwJWn9EsLiBiH4BQ6eifjqxW+Hfw6KD7cpEp+P+wqTAAAAAElFTkSuQmCC"/></span>
+        {% endset %}
+        {% set text %}
+            <div class="sf-toolbar-info-piece">
+                <b>Total Deps</b>
+                <span class="sf-toolbar-status">{{ collector.data.dep_number }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Outdated</b>
+                <span class="sf-toolbar-status sf-toolbar-status-red">{{ collector.data.out_number }}</span>
+            </div>
+        {% endset %}
+        {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
+    {% endif %}
+{% endblock %}
+
+{% block menu %}
+<span class="label">
+    <span class="icon"><img width="32" height="32" alt="VersionEye" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAYFBMVEUiJCInIyImJyUkKCwoKicrLCopLS8rLzEwMi8uMjU0ODo3OTYzO0E+QkRCREJNUE9WWltgZGV0d3aGiYqVmJegoqCoq6ivsrG6vLvDxcLO0M7Y2tfg4t/p6+jx9PD7/fkD5+6KAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90CEAESHsuUhikAAAGzSURBVDjLhZHbdqQgEEXLG1g4iiIioJD//8sURbdrJsnK7IdW2OcUdDf8+RWl4D/+lwBJ9fOEIurH1yNKB7HDeZ6V6CSW9RN41eY95A/mPnfNgWee6jaf2OUYc84+phzPDepk6m43y5x0J2TIeROd0LuHqsV6sS0kjTjn5Ok+iJIDOLtH55SSQrGnyAHkwEr7H8ddLWFoxH0/AdzJXCumN7dFVPEdQLSlL6lTLWHpNwgXBaSUgGe5+QctLpYFOgJDeAUsnXumrFEaDlzELKUKh2SApq4qp12icGyvexNSztf6BAx27o7lOx+RfDDku/2AooWAZARKVWtS6ZX+J3qZQ3kIAk4etN2XFlzhmjgWIQYxtNMAyAGxxjiXjhzYT6TF0BvXQydqYrHXvkA/FDOOPVlYD6d7CGs9iwrGO6OGvjIszlt6Al3bmQVaMQx9O05jkS0s5ghOtyUQmWC3ZZrGwjRp44J3G/Ak0Lb4gvenI05P2GVo61HQA2hjj9PXDIXsvo3Q9m0FXlcipkUv01iu8jevAFPW/9p3oPm62/JO0zQA8HS/J4D5rrjHNOX9J9m8LfEJDbwyR29wCrIAAAAASUVORK5CYII="/></span>
+    <strong>VersionEye</strong>
+    <span class="count">
+        <span>{{ collector.data.dep_number }}</span>
+    </span>
+</span>
+{% endblock %}
+
+{% block panel %}
+    <h2>VersionEye</h2>
+    {% if not collector.data %}
+        <p>
+            <em>No data.</em>
+        </p>
+    {% else %}
+        <table class="versioneye inline">
+            <tr>
+                <th>Dependency name</th>
+                <th>Requested version</th>
+                <th>Current version</th>
+            </tr>
+            {% for i, dep in collector.data.dependencies %}
+                <tr>
+                    <td><code>{{ dep.name }}</code></td>
+                    <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_requested }}</code></td>
+                    <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_current }}</code></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

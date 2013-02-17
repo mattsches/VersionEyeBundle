@@ -20,5 +20,6 @@ Add the following to your `app/config/config_dev.yml` (you only want to use this
 ```yml
 mattsches_version_eye:
     base_url: "https://www.versioneye.com/api/v1"
+    filesystem_cache_path: "%kernel.cache_dir%/versioneye"
     api_key: YOUR_VERSION_EYE_API_KEY_HERE
 ```

@@ -1,6 +1,8 @@
 VersionEye Bundle
 ====================
 
+[![Build Status](https://travis-ci.org/mattsches/VersionEyeBundle.png?branch=master)](https://travis-ci.org/mattsches/VersionEyeBundle)
+
 Installation
 ------------
 

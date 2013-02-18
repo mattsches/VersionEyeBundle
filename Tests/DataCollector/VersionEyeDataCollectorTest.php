@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response as GuzzleResponse;
-use Guzzle\Tests\GuzzleTestCase;
 use Mattsches\VersionEyeBundle\Client\VersionEyeClient;
 use Mattsches\VersionEyeBundle\DataCollector\VersionEyeDataCollector;
 use Mattsches\VersionEyeBundle\Service\ComposerLoader;
@@ -17,7 +16,7 @@ use Mattsches\VersionEyeBundle\Service\ComposerLoader;
  * @author Matthias Gutjahr <mail@matthias-gutjahr.de>
  * @package Mattsches\VersionEyeBundle\Tests\DataCollector
  */
-class VersionEyeDataCollectorTest extends GuzzleTestCase
+class VersionEyeDataCollectorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var VersionEyeDataCollector

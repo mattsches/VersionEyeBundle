@@ -2,8 +2,10 @@
 
 {% block toolbar %}
     {% if collector.data %}
+        {% set color_code = (collector.data.out_number > 0) ? 'red' : 'green'  %}
         {% set icon %}
             <span style="margin-top:4px;"><img alt="VersionEye" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAYFBMVEUhJScjJSImKCYmKi0nLjUsLiwqLzAvMzY0ODo4OTc0O0E/Q0ZFR0RNUFFVWVleYF9laGdwdHR9gH+Dh4aPkY6Xmpugpaerrq6ztrW+wL7HysnQ09Lg4+Dr7erx8/D7/fo8XGycAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90CEAEWL/4mQxcAAADlSURBVBjTbc/broQgDEDRAlpQEQQVLxT4/7+c6tPJzNkPJKwCCTD+ZuCXzB/sus6Y7l1fNOOIS8qlFspHnBCM4QvTWlprKazlXmI6GPUUqbVaK82YyqSUAoPuaneuhbvAUUCtQXuqpzmZiDKaHBSjK6WukJiILtB5RkQgCnSAy2zZq/lUD5YAO03K7efulIruxU2hvpJGbTTi7BEV9sAD1Gkb9LOde4l2H2Dz/ANw0VsphRjmdbMSKJ87y8BZv+6b74UEG4/7vq7z6Yi2lxzwJWn9EsLiBiH4BQ6eifjqxW+Hfw6KD7cpEp+P+wqTAAAAAElFTkSuQmCC"/></span>
+            <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ collector.data.out_number }}</span>
         {% endset %}
         {% set text %}
             <div class="sf-toolbar-info-piece">
@@ -12,7 +14,7 @@
             </div>
             <div class="sf-toolbar-info-piece">
                 <b>Outdated</b>
-                <span class="sf-toolbar-status sf-toolbar-status-red">{{ collector.data.out_number }}</span>
+                <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ collector.data.out_number }}</span>
             </div>
         {% endset %}
         {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}

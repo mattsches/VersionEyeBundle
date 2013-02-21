@@ -12,6 +12,14 @@ Suggested installation method is through [composer](http://getcomposer.org/):
 php composer.phar require mattsches/version-eye-bundle:dev-master
 ```
 
+Add the bundle to your app/AppKernel.php under the dev environment 
+```php
+if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            ...
+            $bundles[] = new Mattsches\VersionEyeBundle\MattschesVersionEyeBundle();
+        }
+```
+
 Setup
 -----
 

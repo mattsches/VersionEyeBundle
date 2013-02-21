@@ -13,6 +13,7 @@ use Guzzle\Plugin\Cache\CachePlugin;
 use Guzzle\Plugin\Cache\CallbackCanCacheStrategy;
 use Mattsches\VersionEyeBundle\Client\VersionEyeClient;
 use Mattsches\VersionEyeBundle\Service\ComposerLoader;
+use Mattsches\VersionEyeBundle\Util\VersionEyeResult;
 
 /**
  * Class VersionEyeDataCollector
@@ -73,9 +74,7 @@ class VersionEyeDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = array(
-            $this->call(),
-        );
+        $this->data = $this->call();
     }
 
     /**
@@ -83,7 +82,7 @@ class VersionEyeDataCollector extends DataCollector
      */
     public function getData()
     {
-        return $this->data[0];
+        return $this->data;
     }
 
     /**
@@ -91,13 +90,22 @@ class VersionEyeDataCollector extends DataCollector
      */
     protected function call()
     {
-        /* @var RequestInterface $request */
-        $request = $this->client->post('projects.json?api_key=' . $this->apiKey)->addPostFiles(array(
-                'upload' => $this->loader->getComposerJson()
-            )
+        try {
+            /* @var RequestInterface $request */
+            $request = $this->client->post('projects.json?api_key=' . $this->apiKey)->addPostFiles(array(
+                    'upload' => $this->loader->getComposerJson()
+                )
+            );
+            $response = $request->send();
+        } catch (\Exception $e) {
+            return new VersionEyeResult(
+                VersionEyeResult::STATUS_ERR
+            );
+        }
+        return new VersionEyeResult(
+            VersionEyeResult::STATUS_OK,
+            $response->json()
         );
-        $response = $request->send();
-        return $response->json();
     }
 
     /**

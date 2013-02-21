@@ -2,21 +2,32 @@
 
 {% block toolbar %}
     {% if collector.data %}
-        {% set color_code = (collector.data.out_number > 0) ? 'red' : 'green'  %}
-        {% set icon %}
-            <span style="line-height:28px;"><img alt="VersionEye" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAYFBMVEUhJScjJSImKCYmKi0nLjUsLiwqLzAvMzY0ODo4OTc0O0E/Q0ZFR0RNUFFVWVleYF9laGdwdHR9gH+Dh4aPkY6Xmpugpaerrq6ztrW+wL7HysnQ09Lg4+Dr7erx8/D7/fo8XGycAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90CEAEWL/4mQxcAAADlSURBVBjTbc/broQgDEDRAlpQEQQVLxT4/7+c6tPJzNkPJKwCCTD+ZuCXzB/sus6Y7l1fNOOIS8qlFspHnBCM4QvTWlprKazlXmI6GPUUqbVaK82YyqSUAoPuaneuhbvAUUCtQXuqpzmZiDKaHBSjK6WukJiILtB5RkQgCnSAy2zZq/lUD5YAO03K7efulIruxU2hvpJGbTTi7BEV9sAD1Gkb9LOde4l2H2Dz/ANw0VsphRjmdbMSKJ87y8BZv+6b74UEG4/7vq7z6Yi2lxzwJWn9EsLiBiH4BQ6eifjqxW+Hfw6KD7cpEp+P+wqTAAAAAElFTkSuQmCC"/></span>
-            <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ collector.data.out_number }}</span>
-        {% endset %}
-        {% set text %}
-            <div class="sf-toolbar-info-piece">
-                <b>Total Deps</b>
-                <span class="sf-toolbar-status">{{ collector.data.dep_number }}</span>
-            </div>
-            <div class="sf-toolbar-info-piece">
-                <b>Outdated</b>
-                <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ collector.data.out_number }}</span>
-            </div>
-        {% endset %}
+        {% if collector.data.status == 0 %}
+            {% set icon %}
+                <span style="line-height:28px;"><img alt="VersionEye" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAYFBMVEUhJScjJSImKCYmKi0nLjUsLiwqLzAvMzY0ODo4OTc0O0E/Q0ZFR0RNUFFVWVleYF9laGdwdHR9gH+Dh4aPkY6Xmpugpaerrq6ztrW+wL7HysnQ09Lg4+Dr7erx8/D7/fo8XGycAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90CEAEWL/4mQxcAAADlSURBVBjTbc/broQgDEDRAlpQEQQVLxT4/7+c6tPJzNkPJKwCCTD+ZuCXzB/sus6Y7l1fNOOIS8qlFspHnBCM4QvTWlprKazlXmI6GPUUqbVaK82YyqSUAoPuaneuhbvAUUCtQXuqpzmZiDKaHBSjK6WukJiILtB5RkQgCnSAy2zZq/lUD5YAO03K7efulIruxU2hvpJGbTTi7BEV9sAD1Gkb9LOde4l2H2Dz/ANw0VsphRjmdbMSKJ87y8BZv+6b74UEG4/7vq7z6Yi2lxzwJWn9EsLiBiH4BQ6eifjqxW+Hfw6KD7cpEp+P+wqTAAAAAElFTkSuQmCC"/></span>
+            {% endset %}
+            {% set text %}
+                <div class="sf-toolbar-info-piece">
+                    <b>No data available</b>
+                </div>
+            {% endset %}
+        {% else %}
+            {% set color_code = (collector.data.outNumber > 0) ? 'red' : 'green'  %}
+            {% set icon %}
+                <span style="line-height:28px;"><img alt="VersionEye" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAYFBMVEUhJScjJSImKCYmKi0nLjUsLiwqLzAvMzY0ODo4OTc0O0E/Q0ZFR0RNUFFVWVleYF9laGdwdHR9gH+Dh4aPkY6Xmpugpaerrq6ztrW+wL7HysnQ09Lg4+Dr7erx8/D7/fo8XGycAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90CEAEWL/4mQxcAAADlSURBVBjTbc/broQgDEDRAlpQEQQVLxT4/7+c6tPJzNkPJKwCCTD+ZuCXzB/sus6Y7l1fNOOIS8qlFspHnBCM4QvTWlprKazlXmI6GPUUqbVaK82YyqSUAoPuaneuhbvAUUCtQXuqpzmZiDKaHBSjK6WukJiILtB5RkQgCnSAy2zZq/lUD5YAO03K7efulIruxU2hvpJGbTTi7BEV9sAD1Gkb9LOde4l2H2Dz/ANw0VsphRjmdbMSKJ87y8BZv+6b74UEG4/7vq7z6Yi2lxzwJWn9EsLiBiH4BQ6eifjqxW+Hfw6KD7cpEp+P+wqTAAAAAElFTkSuQmCC"/></span>
+                <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ collector.data.outNumber }}</span>
+            {% endset %}
+            {% set text %}
+                <div class="sf-toolbar-info-piece">
+                    <b>Total Deps</b>
+                    <span class="sf-toolbar-status">{{ collector.data.depNumber }}</span>
+                </div>
+                <div class="sf-toolbar-info-piece">
+                    <b>Outdated</b>
+                    <span class="sf-toolbar-status sf-toolbar-status-{{ color_code }}">{{ collector.data.outNumber }}</span>
+                </div>
+            {% endset %}
+        {% endif %}
         {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
     {% endif %}
 {% endblock %}
@@ -25,18 +36,21 @@
 <span class="label">
     <span class="icon"><img width="32" height="32" alt="VersionEye" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAYFBMVEUiJCInIyImJyUkKCwoKicrLCopLS8rLzEwMi8uMjU0ODo3OTYzO0E+QkRCREJNUE9WWltgZGV0d3aGiYqVmJegoqCoq6ivsrG6vLvDxcLO0M7Y2tfg4t/p6+jx9PD7/fkD5+6KAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90CEAESHsuUhikAAAGzSURBVDjLhZHbdqQgEEXLG1g4iiIioJD//8sURbdrJsnK7IdW2OcUdDf8+RWl4D/+lwBJ9fOEIurH1yNKB7HDeZ6V6CSW9RN41eY95A/mPnfNgWee6jaf2OUYc84+phzPDepk6m43y5x0J2TIeROd0LuHqsV6sS0kjTjn5Ok+iJIDOLtH55SSQrGnyAHkwEr7H8ddLWFoxH0/AdzJXCumN7dFVPEdQLSlL6lTLWHpNwgXBaSUgGe5+QctLpYFOgJDeAUsnXumrFEaDlzELKUKh2SApq4qp12icGyvexNSztf6BAx27o7lOx+RfDDku/2AooWAZARKVWtS6ZX+J3qZQ3kIAk4etN2XFlzhmjgWIQYxtNMAyAGxxjiXjhzYT6TF0BvXQydqYrHXvkA/FDOOPVlYD6d7CGs9iwrGO6OGvjIszlt6Al3bmQVaMQx9O05jkS0s5ghOtyUQmWC3ZZrGwjRp44J3G/Ak0Lb4gvenI05P2GVo61HQA2hjj9PXDIXsvo3Q9m0FXlcipkUv01iu8jevAFPW/9p3oPm62/JO0zQA8HS/J4D5rrjHNOX9J9m8LfEJDbwyR29wCrIAAAAASUVORK5CYII="/></span>
     <strong>VersionEye</strong>
+    {% if collector.data.status == 1 %}
     <span class="count">
-        <span>{{ collector.data.dep_number }}</span>
+        <span>{{ collector.data.depNumber }}</span>
     </span>
+    {% endif %}
 </span>
 {% endblock %}
 
 {% block panel %}
     <h2>VersionEye</h2>
-    {% if not collector.data %}
-        <p>
-            <em>No data.</em>
-        </p>
+    {% if not collector.data or collector.data.status == 0 %}
+        <div>
+            <h3>No data available</h3>
+            The client could not connect to the web service. Maybe you are offline?
+        </div>
     {% else %}
         <table class="versioneye inline">
             <tr>

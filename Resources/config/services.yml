@@ -3,7 +3,6 @@ parameters:
     mattsches_version_eye.mattsches_version_eye.composer_loader.class: Mattsches\VersionEyeBundle\Service\ComposerLoader
     mattsches_version_eye.data_collector.version_eye.class: Mattsches\VersionEyeBundle\DataCollector\VersionEyeDataCollector
     mattsches_version_eye.filesystem_cache.class: Doctrine\Common\Cache\FilesystemCache
-    mattsches_version_eye.filesystem_cache.path: /tmp
 
 services:
     mattsches_version_eye.client:
@@ -16,7 +15,7 @@ services:
 
     mattsches_version_eye.filesystem_cache:
         class: %mattsches_version_eye.filesystem_cache.class%
-        arguments: [ %mattsches_version_eye.filesystem_cache.path% ]
+        arguments: [ %mattsches_version_eye.filesystem_cache_path% ]
 
     mattsches_version_eye.data_collector.version_eye:
         class: %mattsches_version_eye.data_collector.version_eye.class%

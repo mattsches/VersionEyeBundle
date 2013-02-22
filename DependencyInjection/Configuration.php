@@ -21,9 +21,18 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('mattsches_version_eye');
         $rootNode
             ->children()
-            ->scalarNode('api_key')->isRequired()->cannotBeEmpty()->end()
-            ->scalarNode('base_url')->isRequired()->cannotBeEmpty()->end()
-            ->scalarNode('filesystem_cache_path')->isRequired()->cannotBeEmpty()->end()
+            ->scalarNode('api_key')
+                ->isRequired()->cannotBeEmpty()->end()
+            ->scalarNode('base_url')
+                ->isRequired()
+                ->cannotBeEmpty()
+                ->defaultValue('https://www.versioneye.com/api/v1')
+                ->end()
+            ->scalarNode('filesystem_cache_path')
+                ->isRequired()
+                ->cannotBeEmpty()
+                ->defaultValue('%kernel.cache_dir%/versioneye')
+                ->end()
             ->end()
             ;
         return $treeBuilder;

@@ -60,7 +60,7 @@
             </tr>
             {% for i, dep in collector.data.dependencies %}
                 <tr>
-                    <td><code>{{ dep.name }}</code></td>
+                    <td><code><a href='https://packagist.org/packages/{{ dep.name }}'>{{ dep.name }}</a></code></td>
                     <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_requested }}</code></td>
                     <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_current }}</code></td>
                 </tr>

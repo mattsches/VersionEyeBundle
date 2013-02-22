@@ -60,7 +60,14 @@
             </tr>
             {% for i, dep in collector.data.dependencies %}
                 <tr>
-                    <td><code><a href='https://packagist.org/packages/{{ dep.name }}'>{{ dep.name }}</a></code></td>
+                    <td><code>{% if dep.name == 'php' %}
+                    <a href='http://php.net/'>
+                    {% elseif dep.name|slice(0, 4) == 'ext-' %}
+                    <a href='http://php.net/{{ dep.name|slice(4) }}'>
+                    {% else %}
+                    <a href='https://packagist.org/packages/{{ dep.name }}'>
+                    {% endif %}
+                    {{ dep.name }}</a></code></td>
                     <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_requested }}</code></td>
                     <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_current }}</code></td>
                 </tr>

@@ -2,16 +2,11 @@
 
 namespace Mattsches\VersionEyeBundle\DataCollector;
 
-use Guzzle\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
-use Doctrine\Common\Cache\Cache;
-use Guzzle\Cache\DoctrineCacheAdapter;
 use Guzzle\Http\Message\EntityEnclosingRequest;
-use Guzzle\Plugin\Cache\CachePlugin;
-use Guzzle\Plugin\Cache\CallbackCanCacheStrategy;
-use Mattsches\VersionEyeBundle\Client\VersionEyeClient;
+use Mattsches\VersionEyeBundle\Service\VersionEyeApi;
 use Mattsches\VersionEyeBundle\Service\ComposerLoader;
 use Mattsches\VersionEyeBundle\Util\VersionEyeResult;
 
@@ -24,14 +19,9 @@ use Mattsches\VersionEyeBundle\Util\VersionEyeResult;
 class VersionEyeDataCollector extends DataCollector
 {
     /**
-     * @var \Mattsches\VersionEyeBundle\Client\VersionEyeClient
+     * @var \Mattsches\VersionEyeBundle\Service\VersionEyeApi
      */
-    protected $client;
-
-    /**
-     * @var string
-     */
-    protected $apiKey;
+    protected $api;
 
     /**
      * @var \Mattsches\VersionEyeBundle\Service\ComposerLoader
@@ -39,31 +29,12 @@ class VersionEyeDataCollector extends DataCollector
     protected $loader;
 
     /**
-     * @param \Mattsches\VersionEyeBundle\Client\VersionEyeClient $client
-     * @param string $apiKey
+     * @param \Mattsches\VersionEyeBundle\Service\VersionEyeApi $api
      * @param \Mattsches\VersionEyeBundle\Service\ComposerLoader $loader
-     * @param \Doctrine\Common\Cache\Cache $cache
      */
-    public function __construct(VersionEyeClient $client, $apiKey, ComposerLoader $loader, Cache $cache = null)
+    public function __construct(VersionEyeApi $api, ComposerLoader $loader)
     {
-        $this->client = $client;
-        if ($cache !== null) {
-            $adapter = new DoctrineCacheAdapter($cache);
-            $options = array(
-                'adapter' => $adapter,
-                'can_cache' => new CallbackCanCacheStrategy(
-                    function () {
-                        return true;
-                    },
-                    function () {
-                        return true;
-                    }
-                ),
-            );
-            $cachePlugin = new CachePlugin($options);
-            $this->client->addSubscriber($cachePlugin);
-        }
-        $this->apiKey = $apiKey;
+        $this->api = $api;
         $this->loader = $loader;
     }
 
@@ -90,13 +61,21 @@ class VersionEyeDataCollector extends DataCollector
      */
     protected function call()
     {
+        $projectName = $this->loader->getProjectName();
+        $projectKey = null;
         try {
-            /* @var RequestInterface $request */
-            $request = $this->client->post('projects.json?api_key=' . $this->apiKey)->addPostFiles(array(
-                    'upload' => $this->loader->getComposerJson()
-                )
-            );
-            $response = $request->send();
+            $projects = $this->api->getProjects()->json();
+            foreach ($projects as $project) {
+                if ($project['name'] == $projectName) {
+                    $projectKey = $project['project_key'];
+                    break;
+                }
+            }
+            if ($projectKey === null) {
+                $response = $this->api->postProject($this->loader->getComposerJson());
+            } else {
+                $response = $this->api->updateProject($projectKey, $this->loader->getComposerJson());
+            }
         } catch (\Exception $e) {
             return new VersionEyeResult(
                 VersionEyeResult::STATUS_ERR

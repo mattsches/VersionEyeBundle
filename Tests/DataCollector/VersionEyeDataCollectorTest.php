@@ -2,6 +2,7 @@
 
 namespace Mattsches\VersionEyeBundle\Tests\DataCollector;
 
+use Mattsches\VersionEyeBundle\Service\VersionEyeApi;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Plugin\Mock\MockPlugin;
@@ -40,13 +41,13 @@ class VersionEyeDataCollectorTest extends \PHPUnit_Framework_TestCase
     public function testCollect()
     {
         $plugin = new MockPlugin();
-        $response = new GuzzleResponse(200);
-        $response->setBody(file_get_contents(__DIR__ . '/Fixtures/response.json'));
-        $plugin->addResponse($response);
+        $plugin->addResponse($this->getFixtureResponse('response_projects.json'));
+        $plugin->addResponse($this->getFixtureResponse('response.json'));
         $client = new VersionEyeClient('foo');
         $client->addSubscriber($plugin);
+        $api = new VersionEyeApi($client, 'api_key');
         $loader = new ComposerLoader(__DIR__ . '/Fixtures/composer.json');
-        $this->object = new VersionEyeDataCollector($client, 'foo', $loader);
+        $this->object = new VersionEyeDataCollector($api, $loader);
         $this->object->collect(new Request(), new Response());
         /* @var VersionEyeResult $data */
         $data = $this->object->getData();
@@ -74,13 +75,12 @@ class VersionEyeDataCollectorTest extends \PHPUnit_Framework_TestCase
     public function testCollectOffline()
     {
         $plugin = new MockPlugin();
-        $response = new GuzzleResponse(404);
-        $response->setBody(file_get_contents(__DIR__ . '/Fixtures/response.json'));
-        $plugin->addResponse($response);
+        $plugin->addResponse($this->getFixtureResponse('response.json', 404));
         $client = new VersionEyeClient('foo');
         $client->addSubscriber($plugin);
+        $api = new VersionEyeApi($client, 'api_key');
         $loader = new ComposerLoader(__DIR__ . '/Fixtures/composer.json');
-        $this->object = new VersionEyeDataCollector($client, 'foo', $loader);
+        $this->object = new VersionEyeDataCollector($api, $loader);
         $this->object->collect(new Request(), new Response());
         /* @var VersionEyeResult $data */
         $data = $this->object->getData();
@@ -94,5 +94,17 @@ class VersionEyeDataCollectorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $data->getStatus());
         $this->assertNull($data->getDepNumber());
         $this->assertNull($data->getOutNumber());
+    }
+
+    /**
+     * @param string $filename
+     * @param int $httpStatusCode
+     * @return \Guzzle\Http\Message\Response
+     */
+    protected function getFixtureResponse($filename, $httpStatusCode = 200)
+    {
+        $response = new GuzzleResponse($httpStatusCode);
+        $response->setBody(file_get_contents(__DIR__ . '/Fixtures/' . $filename));
+        return $response;
     }
 }

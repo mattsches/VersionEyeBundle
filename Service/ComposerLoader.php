@@ -16,13 +16,16 @@ class ComposerLoader
     protected $composerJson;
 
     /**
+     * @var string
+     */
+    protected $projectName;
+
+    /**
      * @param $composerJson
      */
     public function __construct($composerJson)
     {
-        if (file_exists($composerJson)) {
-            $this->composerJson = $composerJson;
-        }
+        $this->setComposerJson($composerJson);
     }
 
     /**
@@ -30,7 +33,9 @@ class ComposerLoader
      */
     public function setComposerJson($composerJson)
     {
-        $this->composerJson = $composerJson;
+        if (file_exists($composerJson)) {
+            $this->composerJson = $composerJson;
+        }
     }
 
     /**
@@ -39,5 +44,21 @@ class ComposerLoader
     public function getComposerJson()
     {
         return $this->composerJson;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProjectName()
+    {
+        try {
+            $composer = json_decode(file_get_contents($this->getComposerJson()));
+        } catch (\Exception $e) {
+            return null;
+        }
+        if (is_object($composer) && property_exists($composer, 'name')) {
+            $this->projectName = $composer->name;
+        }
+        return $this->projectName;
     }
 }

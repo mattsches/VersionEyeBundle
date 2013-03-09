@@ -1,5 +1,4 @@
 {
-    "name": "mattsches/version-eye-bundle",
     "type": "symfony-bundle",
     "description": "Symfony MattschesVersionEyeBundle",
     "keywords": ["versioneye"],

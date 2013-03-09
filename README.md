@@ -33,3 +33,9 @@ mattsches_version_eye:
     filesystem_cache_path: "%kernel.cache_dir%/versioneye"
     
 ```
+
+A Word Of Caution
+-----------------
+
+Although this plugin caches all requests to the VersionEye servers, it may slow down your project a bit (dev only, of course).
+In my project, average response time is up to 400ms slower even when reading from the cache, YMMV.

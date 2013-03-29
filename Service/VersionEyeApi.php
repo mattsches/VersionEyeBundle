@@ -92,7 +92,7 @@ class VersionEyeApi
     {
         /* @var \Guzzle\Http\Message\Request $request */
         $request = $this->client->post('projects/' . $projectKey . '.json?api_key=' . $this->apiKey)->addPostFiles(array(
-                'upload' => $composerJson
+                'project_file' => $composerJson
             )
         );
         return $request->send();

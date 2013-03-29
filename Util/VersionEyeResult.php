@@ -11,6 +11,26 @@ class VersionEyeResult
     /**
      *
      */
+    const GREEN = '#0e0';
+
+    /**
+     *
+     */
+    const RED = '#f66';
+
+    /**
+     *
+     */
+    const GREY = '#999';
+
+    /**
+     *
+     */
+    const YELLOW = '#fc0';
+
+    /**
+     *
+     */
     const STATUS_OK = 1;
     /**
      *
@@ -114,5 +134,25 @@ class VersionEyeResult
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @param array $dependency
+     * @return string
+     */
+    public function getStabilityColor(array $dependency = array())
+    {
+        if (!array_key_exists('outdated', $dependency)
+            || !array_key_exists('stable', $dependency)
+            || !array_key_exists('unknown', $dependency)
+            || $dependency['unknown'] === true
+        ) {
+            return self::GREY;
+        } elseif ($dependency['outdated'] === true && $dependency['stable'] === true) {
+            return  self::RED;
+        } elseif ($dependency['outdated'] === true && $dependency['stable'] === false) {
+            return self::YELLOW;
+        }
+        return self::GREEN;
     }
 }

@@ -68,8 +68,9 @@
                     <a href='https://packagist.org/packages/{{ dep.name }}'>
                     {% endif %}
                     {{ dep.name }}</a></code></td>
-                    <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_requested }}</code></td>
-                    <td style="background-color:{{ dep.outdated == true ? '#f66;' : '#0e0' }};"><code>{{ dep.version_current }}</code></td>
+                    {% set bgColor = collector.data.stabilityColor(dep) %}
+                    <td style="background-color:{{ bgColor }};"><code>{{ dep.version_requested }}</code></td>
+                    <td style="background-color:{{ bgColor }};"><code>{{ dep.version_current }}</code></td>
                 </tr>
             {% endfor %}
         </table>

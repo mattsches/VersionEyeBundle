@@ -1,7 +1,7 @@
 VersionEye Bundle
 ====================
 
-[![Build Status](https://travis-ci.org/mattsches/VersionEyeBundle.png?branch=master)](https://travis-ci.org/mattsches/VersionEyeBundle)
+[![Build Status](https://travis-ci.org/mattsches/VersionEyeBundle.png?branch=master)](https://travis-ci.org/mattsches/VersionEyeBundle)  [![Total Downloads](https://poser.pugx.org/mattsches/version-eye-bundle/d/total.png)](https://packagist.org/packages/mattsches/version-eye-bundle)
 
 Installation
 ------------

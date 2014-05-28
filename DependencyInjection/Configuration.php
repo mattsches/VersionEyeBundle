@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('base_url')
                 ->isRequired()
                 ->cannotBeEmpty()
-                ->defaultValue('https://www.versioneye.com/api/v1')
+                ->defaultValue('https://www.versioneye.com/api/v2')
                 ->end()
             ->scalarNode('filesystem_cache_path')
                 ->isRequired()

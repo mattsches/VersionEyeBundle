@@ -1,7 +1,7 @@
 VersionEye Bundle
 ====================
 
-[![Build Status](https://travis-ci.org/mattsches/VersionEyeBundle.png?branch=master)](https://travis-ci.org/mattsches/VersionEyeBundle)  [![Total Downloads](https://poser.pugx.org/mattsches/version-eye-bundle/d/total.png)](https://packagist.org/packages/mattsches/version-eye-bundle)
+[![Build Status](https://travis-ci.org/mattsches/VersionEyeBundle.png?branch=master)](https://travis-ci.org/mattsches/VersionEyeBundle)
 
 Installation
 ------------
@@ -38,4 +38,4 @@ A Word Of Caution
 -----------------
 
 Although this plugin caches all requests to the VersionEye servers, it may slow down your project a bit (dev only, of course).
-In my project, average response time is up to 400ms slower even when reading from the cache, YMMV.
+In my project, average response time is up to 400ms slower when there is no cache.

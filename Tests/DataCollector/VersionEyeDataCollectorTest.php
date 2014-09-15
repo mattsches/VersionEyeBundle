@@ -2,12 +2,11 @@
 
 namespace Mattsches\VersionEyeBundle\Tests\DataCollector;
 
-use Mattsches\VersionEyeBundle\Service\VersionEyeApi;
+use Doctrine\Common\Cache\ArrayCache;
+use Rs\VersionEye\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response as GuzzleResponse;
-use Mattsches\VersionEyeBundle\Client\VersionEyeClient;
 use Mattsches\VersionEyeBundle\DataCollector\VersionEyeDataCollector;
 use Mattsches\VersionEyeBundle\Service\ComposerLoader;
 use Mattsches\VersionEyeBundle\Util\VersionEyeResult;
@@ -26,33 +25,27 @@ class VersionEyeDataCollectorTest extends \PHPUnit_Framework_TestCase
     protected $object;
 
     /**
-     * Setup
-     */
-    protected function setUp()
-    {
-        if (!class_exists('Symfony\Component\HttpFoundation\Request')) {
-            $this->markTestSkipped('The "HttpFoundation" component is not available');
-        }
-    }
-
-    /**
      * @test
      */
     public function testCollect()
     {
-        $plugin = new MockPlugin();
-        $plugin->addResponse($this->getFixtureResponse('response_projects.json'));
-        $plugin->addResponse($this->getFixtureResponse('response.json'));
-        $client = new VersionEyeClient('foo');
-        $client->addSubscriber($plugin);
-        $api = new VersionEyeApi($client, 'api_key');
+        $http = $this->getMock('Rs\VersionEye\Http\HttpClient');
+
+        $http->expects($this->atLeastOnce())->method('request')->will($this->returnValueMap([
+            ['GET', 'projects', [], json_decode(file_get_contents(__DIR__.'/Fixtures/response_projects.json'), true)],
+            ['POST', 'projects', ['upload' => realpath(__DIR__ . '/Fixtures/composer.json')], json_decode(file_get_contents(__DIR__.'/Fixtures/response.json'), true)],
+            ['POST', 'projects/composer_sf2_demo_project_1', ['project_file' => realpath(__DIR__ . '/Fixtures/composer.json')], json_decode(file_get_contents(__DIR__.'/Fixtures/response.json'), true)]
+        ]));
+
         $loader = new ComposerLoader(__DIR__ . '/Fixtures/composer.json');
-        $this->object = new VersionEyeDataCollector($api, $loader);
-        $this->object->collect(new Request(), new Response());
+
+        $collector = new VersionEyeDataCollector(new Client($http), $loader, new ArrayCache());
+        $collector->collect(new Request(), new Response());
+
         /* @var VersionEyeResult $data */
-        $data = $this->object->getData();
+        $data = $collector->getData();
+
         $this->assertInstanceOf('Mattsches\VersionEyeBundle\Util\VersionEyeResult', $data);
-        $this->assertSame('version_eye', $this->object->getName());
         $this->assertObjectHasAttribute('dependencies', $data);
         $this->assertObjectHasAttribute('status', $data);
         $this->assertObjectHasAttribute('outNumber', $data);
@@ -72,39 +65,40 @@ class VersionEyeDataCollectorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function testCollectOffline()
+    public function testCollectCached()
     {
-        $plugin = new MockPlugin();
-        $plugin->addResponse($this->getFixtureResponse('response.json', 404));
-        $client = new VersionEyeClient('foo');
-        $client->addSubscriber($plugin);
-        $api = new VersionEyeApi($client, 'api_key');
+        $http = $this->getMock('Rs\VersionEye\Http\HttpClient');
+        $cache = $this->getMock('Doctrine\Common\Cache\Cache');
+
+        $cache->expects($this->atLeastOnce())->method('fetch')->will($this->returnValueMap([
+            ['versioneye.project', 'composer_sf2_demo_project_1'],
+            ['versioneye.data', json_decode(file_get_contents(__DIR__.'/Fixtures/response.json'), true)]
+        ]));
+
+        $http->expects($this->never())->method('request');
+
         $loader = new ComposerLoader(__DIR__ . '/Fixtures/composer.json');
-        $this->object = new VersionEyeDataCollector($api, $loader);
-        $this->object->collect(new Request(), new Response());
+
+        $collector = new VersionEyeDataCollector(new Client($http), $loader, $cache);
+        $collector->collect(new Request(), new Response());
+
         /* @var VersionEyeResult $data */
-        $data = $this->object->getData();
+        $data = $collector->getData();
+
         $this->assertInstanceOf('Mattsches\VersionEyeBundle\Util\VersionEyeResult', $data);
-        $this->assertSame('version_eye', $this->object->getName());
         $this->assertObjectHasAttribute('dependencies', $data);
         $this->assertObjectHasAttribute('status', $data);
         $this->assertObjectHasAttribute('outNumber', $data);
         $this->assertObjectHasAttribute('depNumber', $data);
         $this->assertObjectNotHasAttribute('foobar', $data);
-        $this->assertEquals(0, $data->getStatus());
-        $this->assertNull($data->getDepNumber());
-        $this->assertNull($data->getOutNumber());
-    }
-
-    /**
-     * @param string $filename
-     * @param int $httpStatusCode
-     * @return \Guzzle\Http\Message\Response
-     */
-    protected function getFixtureResponse($filename, $httpStatusCode = 200)
-    {
-        $response = new GuzzleResponse($httpStatusCode);
-        $response->setBody(file_get_contents(__DIR__ . '/Fixtures/' . $filename));
-        return $response;
+        $this->assertEquals(1, $data->getStatus());
+        $this->assertEquals(24, $data->getDepNumber());
+        $this->assertEquals(18, $data->getOutNumber());
+        $this->assertInternalType('array', $data->getDependencies());
+        $this->assertArrayHasKey('0', $data->getDependencies());
+        $this->assertArrayHasKey('1', $data->getDependencies());
+        $dependencies = $data->getDependencies();
+        $this->assertArrayHasKey('name', $dependencies[0]);
+        $this->assertEquals('doctrine/doctrine-bundle', $dependencies[0]['name']);
     }
 }

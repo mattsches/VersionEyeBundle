@@ -12,15 +12,14 @@
             "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.2",
-        "guzzle/http": "3.*",
-        "guzzle/cache": "3.*",
-        "guzzle/plugin": "3.*"
+        "php": ">=5.4",
+        "guzzlehttp/guzzle": "~4",
+        "digitalkaoz/versioneye-php": "~0.6"
     },
     "require-dev": {
-        "symfony/framework-bundle": ">=2.1.0,<2.3-dev"
+        "symfony/framework-bundle": ">=2.1.0,<2.6-dev",
+        "doctrine/cache": "*"
     },
     "autoload": {
         "psr-0": { "Mattsches\\VersionEyeBundle": "" }

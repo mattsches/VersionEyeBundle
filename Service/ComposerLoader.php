@@ -43,7 +43,7 @@ class ComposerLoader
      */
     public function getComposerJson()
     {
-        return $this->composerJson;
+        return realpath($this->composerJson);
     }
 
     /**

@@ -1,11 +1,9 @@
 [
   {
-    "id": "123456789012345678901a1b",
     "project_key": "composer_sf2_demo_project_1",
     "name": "mattsches/version-eye-bundle",
     "project_type": "composer",
-    "public": true,
-    "private_scm": false,
+    "private": false,
     "period": "weekly",
     "source": "upload",
     "dep_number": 29,

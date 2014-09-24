@@ -1,10 +1,8 @@
 {
-    "id": "123456789012345678901a1b",
     "project_key": "composer_symfony_framework_standard_edition_70",
     "name": "symfony/framework-standard-edition",
     "project_type": "composer",
-    "public": true,
-    "private_scm": false,
+    "private": false,
     "period": "weekly",
     "source": "upload",
     "dep_number": 24,
@@ -17,26 +15,20 @@
             "prod_key": "php/doctrine/doctrine-bundle",
             "group_id": null,
             "artifact_id": null,
-            "license": "MIT",
-            "version_current": "1.2.0",
-            "version_requested": "1.2.0",
-            "comparator": "~",
-            "unknown": false,
-            "outdated": false,
-            "stable": true
+            "version_current": "1.2.0-beta1",
+            "version_requested": "1.1.x-dev",
+            "comparator": "=",
+            "outdated": true
         },
         {
-          "name": "php",
-          "prod_key": "php",
-          "group_id": null,
-          "artifact_id": null,
-          "license": "unknown",
-          "version_current": "5.5.12",
-          "version_requested": "5.5.0",
-          "comparator": ">=",
-          "unknown": false,
-          "outdated": true,
-          "stable": true
+            "name": "jms/di-extra-bundle",
+            "prod_key": "php/jms/di-extra-bundle",
+            "group_id": null,
+            "artifact_id": null,
+            "version_current": "1.3.0-alpha",
+            "version_requested": "1.1.x-dev",
+            "comparator": "=",
+            "outdated": true
         }
     ]
 }

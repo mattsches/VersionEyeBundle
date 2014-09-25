@@ -2,6 +2,7 @@ VersionEye Bundle
 ====================
 
 [![Build Status](https://travis-ci.org/mattsches/VersionEyeBundle.png?branch=master)](https://travis-ci.org/mattsches/VersionEyeBundle)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9ce92129-9696-474d-8641-f0645546431a/mini.png)](https://insight.sensiolabs.com/projects/9ce92129-9696-474d-8641-f0645546431a)
 
 Installation
 ------------

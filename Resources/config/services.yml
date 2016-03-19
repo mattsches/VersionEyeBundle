@@ -6,20 +6,20 @@ parameters:
 
 services:
     mattsches_version_eye.composer_loader:
-        class: %mattsches_version_eye.mattsches_version_eye.composer_loader.class%
+        class: "%mattsches_version_eye.mattsches_version_eye.composer_loader.class%"
         arguments: [ "%kernel.root_dir%/../composer.json" ]
 
     mattsches_version_eye.filesystem_cache:
-        class: %mattsches_version_eye.filesystem_cache.class%
-        arguments: [ %mattsches_version_eye.filesystem_cache_path% ]
+        class: "%mattsches_version_eye.filesystem_cache.class%"
+        arguments: [ "%mattsches_version_eye.filesystem_cache_path%" ]
 
     mattsches_version_eye.service.api:
-        class: %mattsches_version_eye.service.api.class%
+        class: "%mattsches_version_eye.service.api.class%"
         calls:
-          - [authorize, [%mattsches_version_eye.api_key%]]
+          - [authorize, ["%mattsches_version_eye.api_key%"]]
 
     mattsches_version_eye.data_collector.version_eye:
-        class: %mattsches_version_eye.data_collector.version_eye.class%
-        arguments: [ @mattsches_version_eye.service.api, @mattsches_version_eye.composer_loader, @mattsches_version_eye.filesystem_cache ]
+        class: "%mattsches_version_eye.data_collector.version_eye.class%"
+        arguments: [ "@mattsches_version_eye.service.api", "@mattsches_version_eye.composer_loader", "@mattsches_version_eye.filesystem_cache" ]
         tags:
             - { name: data_collector, template: 'MattschesVersionEyeBundle:Collector:versioneye', id: 'version_eye' }

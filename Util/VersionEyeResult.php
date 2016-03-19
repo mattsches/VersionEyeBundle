@@ -4,6 +4,7 @@ namespace Mattsches\VersionEyeBundle\Util;
 
 /**
  * Class VersionEyeResult
+ *
  * @package Mattsches\VersionEyeBundle\Util
  */
 class VersionEyeResult
@@ -55,7 +56,7 @@ class VersionEyeResult
     protected $dependencies = array();
 
     /**
-     * @param int $status
+     * @param int   $status
      * @param array $json
      */
     public function __construct($status, array $json = array())
@@ -138,21 +139,22 @@ class VersionEyeResult
 
     /**
      * @param array $dependency
+     *
      * @return string
      */
     public function getStabilityColor(array $dependency = array())
     {
+        $stabilityColor = self::GREEN;
         if (!array_key_exists('outdated', $dependency)
             || !array_key_exists('stable', $dependency)
             || !array_key_exists('unknown', $dependency)
             || $dependency['unknown'] === true
         ) {
-            return self::GREY;
-        } elseif ($dependency['outdated'] === true && $dependency['stable'] === true) {
-            return  self::RED;
-        } elseif ($dependency['outdated'] === true && $dependency['stable'] === false) {
-            return self::YELLOW;
+            $stabilityColor = self::GREY;
+        } elseif ($dependency['outdated'] === true) {
+            $stabilityColor = $dependency['stable'] === true ? self::RED : self::YELLOW;
         }
-        return self::GREEN;
+
+        return $stabilityColor;
     }
 }

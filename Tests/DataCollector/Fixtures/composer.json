@@ -21,7 +21,6 @@
         "symfony/framework-bundle": ">=2.1.0,<2.3-dev"
     },
     "autoload": {
-        "psr-0": { "Mattsches\\VersionEyeBundle": "" }
-    },
-    "target-dir": "Mattsches/VersionEyeBundle"
+        "psr-4": { "Mattsches\\VersionEyeBundle\\": "" }
+    }
 }

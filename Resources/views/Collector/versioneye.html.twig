@@ -59,15 +59,19 @@
                 <th>Current version</th>
             </tr>
             {% for i, dep in collector.data.dependencies %}
+                {% if dep.name == 'php' %}
+                    {% set dependencyUrl = 'http://php.net/' %}
+                {% elseif dep.name|slice(0, 4) == 'ext-' %}
+                    {% set dependencyUrl = 'http://php.net/' ~ dep.name|slice(4) %}
+                {% else %}
+                    {% set dependencyUrl = 'https://packagist.org/packages/' ~ dep.name %}
+                {% endif %}
                 <tr>
-                    <td><code>{% if dep.name == 'php' %}
-                    <a href='http://php.net/'>
-                    {% elseif dep.name|slice(0, 4) == 'ext-' %}
-                    <a href='http://php.net/{{ dep.name|slice(4) }}'>
-                    {% else %}
-                    <a href='https://packagist.org/packages/{{ dep.name }}'>
-                    {% endif %}
-                    {{ dep.name }}</a></code></td>
+                    <td>
+                        <code>
+                            <a href="{{ dependencyUrl }}">{{ dep.name }}</a>
+                        </code>
+                    </td>
                     {% set bgColor = collector.data.stabilityColor(dep) %}
                     <td style="background-color:{{ bgColor }};"><code>{{ dep.version_requested }}</code></td>
                     <td style="background-color:{{ bgColor }};"><code>{{ dep.version_current }}</code></td>

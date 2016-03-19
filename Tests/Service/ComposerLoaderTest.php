@@ -40,7 +40,7 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
     public function testGetProjectName()
     {
         $projectName = $this->object->getProjectName();
-        $this->assertEquals("mattsches/version-eye-bundle", $projectName);
+        $this->assertEquals('mattsches/version-eye-bundle', $projectName);
     }
 
     /**

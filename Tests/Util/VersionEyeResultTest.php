@@ -28,6 +28,9 @@ class VersionEyeResultTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider dependencyDataProvider
+     *
+     * @param string $color
+     * @param array  $dependency
      */
     public function shouldGetStabilityColor($color, $dependency)
     {

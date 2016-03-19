@@ -6,7 +6,6 @@ use Doctrine\Common\Cache\ArrayCache;
 use Rs\VersionEye\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Guzzle\Http\Message\Response as GuzzleResponse;
 use Mattsches\VersionEyeBundle\DataCollector\VersionEyeDataCollector;
 use Mattsches\VersionEyeBundle\Service\ComposerLoader;
 use Mattsches\VersionEyeBundle\Util\VersionEyeResult;

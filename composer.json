@@ -1,28 +1,38 @@
 {
-    "name": "mattsches/version-eye-bundle",
-    "type": "symfony-bundle",
-    "description": "Symfony MattschesVersionEyeBundle",
-    "keywords": ["version eye", "symfony2", "bundle"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Matthias Gutjahr",
-            "email": "mail@matthias-gutjahr.de",
-            "homepage": "http://matthias-gutjahr.de/",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=5.4",
-        "guzzlehttp/guzzle": "~4",
-        "digitalkaoz/versioneye-php": "~0.6"
-    },
-    "require-dev": {
-        "symfony/framework-bundle": ">=2.1.0,<2.6-dev",
-        "doctrine/cache": "*"
-    },
-    "autoload": {
-        "psr-0": { "Mattsches\\VersionEyeBundle": "" }
-    },
-    "target-dir": "Mattsches/VersionEyeBundle"
+  "name": "mattsches/version-eye-bundle",
+  "type": "symfony-bundle",
+  "description": "Symfony MattschesVersionEyeBundle",
+  "keywords": [
+    "version eye",
+    "symfony2",
+    "bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Matthias Gutjahr",
+      "email": "mail@matthias-gutjahr.de",
+      "homepage": "http://matthias-gutjahr.de/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "digitalkaoz/versioneye-php": "~0.11.0"
+  },
+  "require-dev": {
+    "symfony/framework-bundle": ">=2.7",
+    "doctrine/cache": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mattsches\\VersionEyeBundle\\": ""
+    }
+  },
+    "repositories": [
+      {
+        "type": "path",
+        "url": "../../../store/Projekte/versioneye-php"
+      }
+    ]
 }

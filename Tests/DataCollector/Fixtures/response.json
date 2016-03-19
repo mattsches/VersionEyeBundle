@@ -1,5 +1,5 @@
 {
-    "project_key": "composer_symfony_framework_standard_edition_70",
+    "id": "composer_symfony_framework_standard_edition_70",
     "name": "symfony/framework-standard-edition",
     "project_type": "composer",
     "private": false,

@@ -75,8 +75,8 @@ class VersionEyeDataCollector extends DataCollector
                 $projectName = $this->loader->getProjectName();
                 $projects = $this->client->api('projects')->all();
                 foreach ($projects as $project) {
-                    if ($project['name'] == $projectName) {
-                        $projectKey = $project['project_key'];
+                    if ($project['name'] === $projectName) {
+                        $projectKey = $project['id'];
                         $this->cache->save('versioneye.project', $projectKey);
                         break;
                     }

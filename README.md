@@ -40,3 +40,9 @@ A Word Of Caution
 
 Although this plugin caches all requests to the VersionEye servers, it may slow down your project a bit (dev only, of course).
 In my project, average response time is up to 400ms slower when there is no cache.
+
+
+Requirements
+------------
+
+This bundle requires Symfony version 2.7 or higher. Sorry.

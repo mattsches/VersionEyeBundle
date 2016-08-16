@@ -3,6 +3,7 @@ VersionEye Bundle
 
 [![Build Status](https://travis-ci.org/mattsches/VersionEyeBundle.png?branch=master)](https://travis-ci.org/mattsches/VersionEyeBundle)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/9ce92129-9696-474d-8641-f0645546431a/mini.png)](https://insight.sensiolabs.com/projects/9ce92129-9696-474d-8641-f0645546431a)
+[![Dependency Status](https://www.versioneye.com/user/projects/5702c1c4fcd19a004543f8e4/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5702c1c4fcd19a004543f8e4)
 
 Installation
 ------------

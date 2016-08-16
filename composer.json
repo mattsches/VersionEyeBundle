@@ -28,11 +28,5 @@
     "psr-4": {
       "Mattsches\\VersionEyeBundle\\": ""
     }
-  },
-    "repositories": [
-      {
-        "type": "path",
-        "url": "../../../store/Projekte/versioneye-php"
-      }
-    ]
+  }
 }
